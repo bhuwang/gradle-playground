@@ -1,0 +1,45 @@
+// defining local variable : scope this file
+def projectVersion = "2.0"
+
+// defining global variable : scope application
+project.ext.language = "JAVA"
+
+// project is the top level object
+project.task("This is my first gradle task.")
+
+// you don't even need to specify project.
+task("This is my second task.")
+
+// you can ommit the bracket
+task "This is my third task"
+
+// you can ommit the double quotes if it is a single word task
+task Task4th
+
+//adding properties to task 4
+Task4th.description="Task 4 description"
+
+//calling default doLast method, passing the closure
+Task4th.doLast {println "running task 4......"}
+
+//using left shift (<<) operator
+task task3 << { println "running task 3....."}
+task3 << { println "another closure for task 3"}
+
+//combining
+task task6{
+	description "This is a task 6 description - version: $projectVersion language: $language"
+	doLast{
+		println "running task 6 last......"
+	}
+	doFirst{
+		println "running task 6 first......"
+	}
+}
+
+// adding dependencies
+// should run task3 first then task6 which should be the obvious thing
+task6.dependsOn task3
+task6.dependsOn Task4th
+
+
